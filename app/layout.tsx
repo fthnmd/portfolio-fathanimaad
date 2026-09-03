@@ -30,19 +30,23 @@ const metadataBase = new URL(
 
 export const metadata: Metadata = {
   metadataBase,
-  title: 'Fathan Imaad | Community & Partnerships Portfolio',
+  title: 'Fathan Imaad | Professional Portfolio',
   description:
-    'Community management and partnership portfolio featuring experience in Web3 communities, international stakeholder communication, moderation, outreach, negotiation, and collaboration management.',
+    'Final-year Psychology student with experience in academic research, data organization, community operations, collaboration management, structured communication, and team coordination.',
   applicationName: 'Fathan Imaad Portfolio',
   authors: [{ name: 'Fathan Imaad' }],
   category: 'portfolio',
   keywords: [
     'Fathan Imaad',
-    'community management',
-    'partnerships',
-    'public relations',
-    'Web3 community',
-    'Discord moderation',
+    'professional portfolio',
+    'Psychology student',
+    'academic research',
+    'data organization',
+    'community operations',
+    'collaboration management',
+    'team coordination',
+    'professional communication',
+    'research',
   ],
   robots: {
     index: true,
@@ -54,25 +58,25 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    title: 'Fathan Imaad | Community & Partnerships Portfolio',
+    title: 'Fathan Imaad — Professional Portfolio',
     description:
-      'Experience in Web3 community management, moderation, outreach, negotiation, and international written communication.',
+      'Final-year Psychology student with experience in research, data organization, community operations, collaboration management, structured communication, and team coordination.',
     siteName: 'Fathan Imaad Portfolio',
     images: [
       {
-        url: '/og.png',
+        url: '/og-professional.png',
         width: 1730,
         height: 909,
-        alt: 'Fathan Imaad — Community Management & Partnerships',
+        alt: 'Fathan Imaad — research, coordination, communication, and data',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Fathan Imaad | Community & Partnerships Portfolio',
+    title: 'Fathan Imaad — Professional Portfolio',
     description:
-      'Experience in Web3 community management, moderation, outreach, negotiation, and international written communication.',
-    images: ['/og.png'],
+      'Final-year Psychology student with experience in research, data organization, community operations, collaboration management, structured communication, and team coordination.',
+    images: ['/og-professional.png'],
   },
 };
 

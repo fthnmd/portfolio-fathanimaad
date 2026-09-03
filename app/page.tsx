@@ -1,32 +1,57 @@
 import { portfolioData } from './portfolio-data';
 
-function DownloadCvLink({ className = '' }: { className?: string }) {
+function ResumeLink({ className = '' }: { className?: string }) {
   return (
-    <a className={className} href={portfolioData.cvPath} download>
-      Download CV
-      <span aria-hidden="true">↘</span>
+    <a className={className} href={portfolioData.profile.resumePath} target="_blank" rel="noreferrer">
+      View Resume
+      <span aria-hidden="true">↗</span>
     </a>
   );
 }
 
+function SectionHeading({
+  eyebrow,
+  title,
+  description,
+}: {
+  eyebrow: string;
+  title: string;
+  description?: string;
+}) {
+  return (
+    <header className="section-heading">
+      <p className="eyebrow">{eyebrow}</p>
+      <div className="section-heading-row">
+        <h2>{title}</h2>
+        {description ? <p>{description}</p> : null}
+      </div>
+    </header>
+  );
+}
+
+function TagList({ items }: { items: readonly string[] }) {
+  return (
+    <ul className="tag-list">
+      {items.map((item) => (
+        <li key={item}>{item}</li>
+      ))}
+    </ul>
+  );
+}
+
 export default function Home() {
+  const { profile } = portfolioData;
   const personJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    name: portfolioData.name,
-    email: `mailto:${portfolioData.email}`,
-    jobTitle: portfolioData.role,
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Tangerang Regency',
-      addressRegion: 'Banten',
-      addressCountry: 'Indonesia',
-    },
-    alumniOf: {
+    name: profile.name,
+    email: `mailto:${profile.email}`,
+    jobTitle: 'Final-year Psychology student',
+    affiliation: {
       '@type': 'CollegeOrUniversity',
-      name: 'Universitas Gunadarma',
+      name: portfolioData.education.institution,
     },
-    sameAs: [portfolioData.linkedin],
+    sameAs: [profile.linkedin],
   };
 
   return (
@@ -35,17 +60,17 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
       />
+
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
 
       <header className="site-header">
         <div className="nav-shell">
-          <a className="wordmark" href="#top" aria-label="Fathan Imaad, home">
-            <span>FI</span>
+          <a className="wordmark" href="#top" aria-label={`${profile.name}, home`}>
             <span className="wordmark-copy">
-              Fathan Imaad
-              <small>Community / PR</small>
+              {profile.name}
+              <small>Professional profile</small>
             </span>
           </a>
 
@@ -57,7 +82,7 @@ export default function Home() {
             ))}
           </nav>
 
-          <DownloadCvLink className="nav-cv" />
+          <ResumeLink className="nav-cv" />
 
           <details className="mobile-menu">
             <summary aria-label="Open navigation">Menu</summary>
@@ -67,7 +92,7 @@ export default function Home() {
                   {item.label}
                 </a>
               ))}
-              <DownloadCvLink />
+              <ResumeLink />
             </nav>
           </details>
         </div>
@@ -75,329 +100,210 @@ export default function Home() {
 
       <main id="main-content">
         <section className="hero" id="top" aria-labelledby="hero-title">
-          <div className="hero-grid">
+          <div className="hero-shell">
             <div className="hero-copy">
-              <div className="hero-context" aria-label="Profile context">
-                <span>Community &amp; Public Relations</span>
-                <span>{portfolioData.location}</span>
-              </div>
-
-              <h1 id="hero-title">
-                <span className="hero-name">{portfolioData.name}</span>
-                <span>{portfolioData.role}</span>
-              </h1>
-
+              <p className="eyebrow hero-eyebrow">{profile.eyebrow}</p>
+              <h1 id="hero-title">{profile.name}</h1>
+              <p className="hero-identity">
+                Research <span aria-hidden="true">·</span> Coordination{' '}
+                <span aria-hidden="true">·</span> Communication{' '}
+                <span aria-hidden="true">·</span> Data
+              </p>
               <p className="hero-summary">{portfolioData.hero.summary}</p>
+              <p className="hero-direction">{portfolioData.hero.direction}</p>
 
               <div className="hero-actions" aria-label="Primary actions">
                 <a className="button button-primary" href="#experience">
-                  View Experience
+                  Explore My Experience
                   <span aria-hidden="true">↓</span>
                 </a>
-                <DownloadCvLink className="button button-secondary" />
+                <ResumeLink className="button button-secondary" />
+                <a className="button button-tertiary" href={`mailto:${profile.email}`}>
+                  Contact Me
+                  <span aria-hidden="true">↗</span>
+                </a>
               </div>
-
-              <p className="hero-direction">{portfolioData.hero.direction}</p>
             </div>
 
-            <aside className="profile-proof" aria-label="Experience highlights">
-              <div className="proof-heading">
-                <span>Working profile</span>
-                <span>2022—2024</span>
+            <aside className="candidate-card" aria-label="Professional overview">
+              <div className="candidate-card-header">
+                <span>Professional overview</span>
+                <span>2026</span>
               </div>
-
-              <div className="metric metric-primary">
-                <span className="metric-value">100+</span>
+              <p className="candidate-card-kicker">Current profile</p>
+              <h2>People, research, data, and structured execution.</h2>
+              <dl>
                 <div>
-                  <strong>Collaborations handled</strong>
-                  <p>
-                    A conservative count across research, outreach, negotiation,
-                    distribution, and partner communication.
-                  </p>
+                  <dt>Education</dt>
+                  <dd>Bachelor of Psychology</dd>
                 </div>
-              </div>
-
-              <div className="metric-row">
-                <div className="metric">
-                  <span className="metric-value metric-value-small">2022—2024</span>
-                  <p>Web3 community experience</p>
+                <div>
+                  <dt>Experience</dt>
+                  <dd>Academic projects & volunteer roles</dd>
                 </div>
-                <div className="metric">
-                  <span className="metric-value metric-value-small">English</span>
-                  <p>Primary written working language</p>
+                <div>
+                  <dt>Current status</dt>
+                  <dd>Undergraduate thesis stage</dd>
                 </div>
-              </div>
-
-              <p className="role-note">
-                Community-based and volunteer experience; no formal employment
-                relationship is implied.
+              </dl>
+              <p className="candidate-availability">
+                Completed all regular coursework and currently focusing on the
+                undergraduate thesis. Expected graduation: 2026.
               </p>
             </aside>
           </div>
 
-          <div className="capability-strip" aria-label="Core capabilities">
-            <span>Community moderation</span>
-            <span>Partnership outreach</span>
-            <span>Project screening</span>
-            <span>Written English communication</span>
-          </div>
+          <ul className="highlight-grid" aria-label="Profile highlights">
+            {portfolioData.hero.highlights.map((highlight) => (
+              <li key={highlight.value}>
+                <span className="highlight-value">{highlight.value}</span>
+                <strong>{highlight.label}</strong>
+                <small>{highlight.note}</small>
+              </li>
+            ))}
+          </ul>
         </section>
 
-        <section className="section section-light about-section" id="about">
+        <section className="section about-section" id="about">
           <div className="section-shell">
-            <div className="section-title-row">
-              <h2>About Me</h2>
-              <p className="section-standfirst">
-                Community work grounded in clear communication, sound judgment,
-                and respect for people.
-              </p>
-            </div>
+            <SectionHeading
+              eyebrow="Profile"
+              title="About Me"
+              description="A broad professional profile built through academic work and real volunteer responsibilities."
+            />
 
             <div className="about-grid">
               <p className="about-lead">
-                I connect people, expectations, and project teams across
-                fast-moving digital communities.
+                Psychology gives me a foundation for understanding people. My experience
+                taught me how to organize the work around them.
               </p>
               <div className="prose-column">
                 <p>
-                  I am a final-year Psychology student at Universitas Gunadarma
-                  with practical experience in international Web3 community
-                  management and partnership coordination. From moderating an
-                  active Discord community to sourcing, negotiating, and managing
-                  collaborations with external Web3 projects, I have supported both
-                  community-facing and partnership-facing responsibilities.
+                  I am a final-year Psychology student at Universitas Gunadarma with
+                  experience across academic research, community operations,
+                  collaboration management, data organization, and structured
+                  documentation.
                 </p>
                 <p>
-                  This experience taught me to communicate clearly, manage
-                  expectations, evaluate potential opportunities, handle community
-                  concerns, and coordinate with project teams from different
-                  countries. Most of my professional communication in Web3 was
-                  conducted in written English.
+                  My academic background has exposed me to interviewing, quantitative and
+                  qualitative research, job analysis, psychological measurement, data
+                  processing, and confidential information handling. Across several
+                  projects, I regularly coordinated groups of approximately five to seven
+                  students by organizing responsibilities, monitoring progress,
+                  consolidating contributions, and reviewing reports before deadlines.
                 </p>
-              </div>
-            </div>
-
-            <ul className="skill-list" aria-label="Core skills">
-              {portfolioData.skills.map((skill) => (
-                <li key={skill}>{skill}</li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        <section className="section section-paper experience-section" id="experience">
-          <div className="section-shell">
-            <div className="section-title-row compact-title-row">
-              <h2>Experience</h2>
-              <p className="section-standfirst">
-                A chronological view of community and volunteer roles. Titles
-                describe the function performed, not formal employment.
-              </p>
-            </div>
-
-            <ol className="timeline">
-              {portfolioData.experience.map((item, index) => (
-                <li key={`${item.organization}-${item.role}`}>
-                  <span className="timeline-index" aria-hidden="true">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <time>{item.period}</time>
-                  <div className="timeline-role">
-                    <span>{item.organization}</span>
-                    <h3>{item.role}</h3>
-                    <small>Volunteer / community role</small>
-                  </div>
-                  <p>{item.description}</p>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-
-        <section className="section case-studies-section" id="case-studies">
-          <div className="section-shell">
-            <div className="case-studies-intro">
-              <h2>Case Studies</h2>
-              <p>
-                Reconstructed from actual responsibilities, workflows, and
-                decisions across community moderation and partnership coordination.
-              </p>
-            </div>
-
-            <article className="case-study community-case" aria-labelledby="community-case-title">
-              <header className="case-header">
-                <div className="case-number" aria-hidden="true">01</div>
-                <div>
-                  <p className="case-domain">Community moderation / Chillchat</p>
-                  <h3 id="community-case-title">Managing an International Web3 Community</h3>
-                </div>
-              </header>
-
-              <div className="case-opening">
-                <p className="case-context">
-                  Chillchat operated an international Discord community where
-                  members discussed the project, participated in community
-                  activities, and communicated directly with moderators and the
-                  core team.
-                </p>
-                <dl className="case-facts">
-                  <div>
-                    <dt>Role</dt>
-                    <dd>One of approximately six moderators</dd>
-                  </div>
-                  <div>
-                    <dt>Platform</dt>
-                    <dd>Discord</dd>
-                  </div>
-                  <div>
-                    <dt>Focus</dt>
-                    <dd>Support, safety, events, escalation</dd>
-                  </div>
-                </dl>
-              </div>
-
-              <div className="responsibility-block">
-                <h4>Responsibilities</h4>
                 <p>
-                  I responded to member questions, moderated discussions, handled
-                  spam and disruptive behavior, supported community events, managed
-                  support-related issues, and escalated project-specific questions
-                  when they required information outside the moderators&apos;
-                  authority. I also configured anti-spam and anti-raid Discord bots
-                  to strengthen server security.
+                  Outside academics, I gained volunteer experience working with
+                  international communities and external project representatives. These
+                  responsibilities involved professional written communication in English,
+                  outreach, negotiation, coordination, follow-up, issue handling, and
+                  managing multiple ongoing activities.
                 </p>
               </div>
-
-              <div className="judgment-grid">
-                <div className="judgment-card">
-                  <p className="case-domain">Judgment in practice</p>
-                  <h4>Managing Community Frustration During Product Direction Changes</h4>
-                  <div className="narrative-pair">
-                    <div>
-                      <h5>Situation</h5>
-                      <p>
-                        During changes in the project&apos;s product direction, some
-                        members became increasingly frustrated and discussions
-                        occasionally escalated into arguments.
-                      </p>
-                    </div>
-                    <div>
-                      <h5>Approach</h5>
-                      <p>
-                        I allowed objective criticism and differing opinions. When
-                        discussions shifted toward personal attacks, temporary
-                        timeouts were used. More complex concerns were escalated to
-                        the core team.
-                      </p>
-                    </div>
-                  </div>
-                  <blockquote>
-                    Criticism and disagreement were acceptable. Personal attacks
-                    were not.
-                  </blockquote>
-                </div>
-
-                <div className="event-card">
-                  <span className="event-mark" aria-hidden="true">SE</span>
-                  <h4>Supporting Community Events</h4>
-                  <p>
-                    During Sol Arena community events, I assisted members with
-                    event questions and reward claims through Discord support
-                    tickets. Reports of potential in-game cheating or bot usage
-                    were documented and escalated because game-level enforcement
-                    was outside the moderators&apos; authority.
-                  </p>
-                  <p className="takeaway">
-                    The lesson: resolve what falls within your role, and route the
-                    rest to the right decision-maker.
-                  </p>
-                </div>
-              </div>
-            </article>
-
-            <article className="case-study partnerships-case" aria-labelledby="partnership-case-title">
-              <header className="case-header">
-                <div className="case-number" aria-hidden="true">02</div>
-                <div>
-                  <p className="case-domain">Partnership operations / Chillchat</p>
-                  <h3 id="partnership-case-title">From Community Requests to Cross-Project Collaborations</h3>
-                </div>
-              </header>
-
-              <div className="partnership-intro">
-                <div>
-                  <h4>Context</h4>
-                  <p>
-                    Chillchat members frequently sought early access to upcoming
-                    Web3 and NFT projects. Opportunities also came through my own
-                    project research and existing Web3 network.
-                  </p>
-                </div>
-                <div>
-                  <h4>My Role</h4>
-                  <p>
-                    I researched potential projects, contacted collaboration
-                    managers or founders through Discord and X, introduced the
-                    Chillchat community, and negotiated mutually beneficial
-                    arrangements.
-                  </p>
-                </div>
-              </div>
-
-              <div className="operation-grid">
-                <section>
-                  <span>01</span>
-                  <h4>Typical Collaboration</h4>
-                  <p>
-                    A partner project provided early-access or allowlist spots. In
-                    return, participating members might engage with selected X
-                    content through likes, reposts, replies, or a coordinated
-                    community raid.
-                  </p>
-                </section>
-                <section>
-                  <span>02</span>
-                  <h4>Distribution</h4>
-                  <p>
-                    I organized community raffles using Atlas, Alphabot, and
-                    Subber. When deadlines were unusually close, I occasionally
-                    used first-come, first-served distribution to submit allocations
-                    on time.
-                  </p>
-                </section>
-                <section>
-                  <span>03</span>
-                  <h4>Completion</h4>
-                  <p>
-                    I submitted winner information to the partner, verified that
-                    members were added before the project launch when necessary,
-                    and followed up when eligibility issues were reported.
-                  </p>
-                </section>
-              </div>
-
-              <aside className="web3-translation" aria-label="Web3 terminology explained">
-                <strong>For non-Web3 readers</strong>
-                <span><b>Allowlist</b> means an early-access eligibility list.</span>
-                <span><b>Mint</b> refers to the project&apos;s digital-asset launch or claim event.</span>
-                <span><b>Community raid</b> means coordinated engagement on selected social content.</span>
-              </aside>
-            </article>
+            </div>
           </div>
         </section>
 
-        <section className="section process-section" id="process">
-          <div className="section-shell process-shell">
-            <div className="process-heading">
-              <h2>Collaboration Process</h2>
+        <section className="section experience-section" id="experience">
+          <div className="section-shell">
+            <SectionHeading
+              eyebrow="Real responsibilities"
+              title="Volunteer Experience"
+              description="Unpaid community-based roles presented in general professional language, without treating them as employment in another field."
+            />
+
+            <div className="experience-list">
+              {portfolioData.volunteerExperience.map((experience, index) => (
+                <article className="experience-card" key={`${experience.organization}-${experience.role}`}>
+                  <div className="experience-meta">
+                    <span>{String(index + 1).padStart(2, '0')}</span>
+                    <time>{experience.period}</time>
+                  </div>
+                  <header>
+                    <p>{experience.organization}</p>
+                    <h3>{experience.role}</h3>
+                    <small>{experience.type}</small>
+                  </header>
+                  <ul className="bullet-list">
+                    {experience.bullets.map((bullet) => (
+                      <li key={bullet}>{bullet}</li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+
+            <aside className="collaboration-callout">
+              <div className="callout-number">100+</div>
+              <div>
+                <p className="eyebrow eyebrow-on-dark">Scale of coordination</p>
+                <h3>Collaboration Opportunities Coordinated</h3>
+                <p>
+                  Across two volunteer communities, I handled more than 100 collaboration
+                  opportunities involving research, outreach, negotiation, coordination,
+                  participant information, deadlines, follow-up, and external
+                  communication.
+                </p>
+                <small>
+                  A conservative opportunity count—not 100 successful partnerships. The
+                  exact total was not formally recorded.
+                </small>
+              </div>
+            </aside>
+
+            <div className="case-grid" aria-label="Selected experience case studies">
+              <article className="case-card">
+                <p className="eyebrow">Community operations case</p>
+                <h3>Managing Community Concerns During Organizational Change</h3>
+                <p>
+                  During periods of member frustration, I allowed constructive criticism
+                  and differing opinions while maintaining professional boundaries. When
+                  discussions shifted toward personal conflict, I helped de-escalate the
+                  situation and escalated concerns that required information or authority
+                  beyond my role.
+                </p>
+                <ul>
+                  <li>Allowed constructive criticism and respectful disagreement.</li>
+                  <li>Maintained clear boundaries around personal conflict.</li>
+                  <li>Recognized when an issue required escalation.</li>
+                  <li>Communicated responsibly during periods of uncertainty.</li>
+                </ul>
+              </article>
+
+              <article className="case-card case-card-dark">
+                <p className="eyebrow eyebrow-on-dark">Research & judgment case</p>
+                <h3>Project Screening & Risk Awareness</h3>
+                <p>
+                  Before selected opportunities proceeded, I reviewed publicly available
+                  information such as account activity, team background, engagement
+                  quality, public history, and other potential credibility or risk
+                  indicators. Relevant concerns were communicated before a decision was
+                  made.
+                </p>
+                <small>
+                  This was a practical screening process based on public information—not
+                  formal due diligence or an accusation against any specific project.
+                </small>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section className="workflow-section" aria-labelledby="workflow-title">
+          <div className="section-shell">
+            <div className="workflow-heading">
+              <div>
+                <p className="eyebrow eyebrow-on-dark">Repeatable process</p>
+                <h2 id="workflow-title">Collaboration Workflow</h2>
+              </div>
               <p>
-                A repeatable workflow from the first signal of an opportunity to
-                final partner follow-up.
+                A generalized view of how I moved an opportunity from discovery to final
+                follow-up.
               </p>
             </div>
 
             <ol className="workflow">
-              {portfolioData.collaborationSteps.map((step, index) => (
+              {portfolioData.workflow.map((step, index) => (
                 <li key={step.title}>
                   <span className="workflow-node" aria-hidden="true" />
                   <span className="workflow-index">{String(index + 1).padStart(2, '0')}</span>
@@ -409,194 +315,234 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section section-light screening-section">
+        <section className="section academic-section" id="academic">
           <div className="section-shell">
-            <article aria-labelledby="screening-title">
-              <header className="case-header screening-header">
-                <div className="case-number" aria-hidden="true">03</div>
-                <div>
-                  <p className="case-domain">Selective partnerships / Stress Capital DAO</p>
-                  <h2 id="screening-title">Selective Partnerships for a Gated Web3 Community</h2>
-                </div>
-              </header>
+            <SectionHeading
+              eyebrow="Academic experience"
+              title="Selected Academic Projects"
+              description="University work presented clearly as academic experience—not formal professional employment."
+            />
 
-              <div className="screening-layout">
-                <div className="screening-copy">
-                  <div>
-                    <h3>Context</h3>
-                    <p>
-                      Stress Capital DAO was a smaller, more selective private
-                      Web3 community. Members could request access to particular
-                      upcoming projects, while I also sourced opportunities
-                      independently.
-                    </p>
+            <div className="project-grid">
+              {portfolioData.academicProjects.map((project) => (
+                <article className="project-card" key={project.title}>
+                  <header>
+                    <span>{project.index}</span>
+                    <h3>{project.title}</h3>
+                  </header>
+                  <p className="project-summary">{project.summary}</p>
+                  {project.bullets.length > 0 ? (
+                    <ul className="bullet-list">
+                      {project.bullets.map((bullet) => (
+                        <li key={bullet}>{bullet}</li>
+                      ))}
+                    </ul>
+                  ) : null}
+                  <div className="project-areas">
+                    <span>Relevant skills</span>
+                    <TagList items={project.areas} />
                   </div>
-                  <div>
-                    <h3>My Role</h3>
-                    <p>
-                      I independently evaluated potential projects before deciding
-                      whether to pursue a collaboration, then handled outreach,
-                      negotiation, allocation coordination, distribution, and
-                      follow-up.
-                    </p>
-                  </div>
-                </div>
+                </article>
+              ))}
+            </div>
 
-                <div className="screening-panel">
-                  <h3>Project Screening</h3>
-                  <p>
-                    I reviewed publicly available indicators and treated concerns
-                    as signals for added caution, not as proof that a project was
-                    safe or unsafe.
-                  </p>
-                  <ul>
-                    <li>X account activity and significant username history</li>
-                    <li>Founder or team track records</li>
-                    <li>Artwork originality and engagement quality</li>
-                    <li>Potential signs of artificially inflated activity</li>
-                  </ul>
-                  <p>
-                    When concerns existed but community demand remained high, I
-                    communicated those concerns before a collaboration proceeded.
-                  </p>
-                </div>
-              </div>
-
-              <div className="decision-rule">
-                <span>Decision boundary</span>
+            <div className="evidence-grid">
+              <article className="coordination-card">
+                <p className="eyebrow">Team coordination</p>
+                <div className="evidence-number">5–7</div>
+                <h3>Academic Team Members Typically Coordinated</h3>
                 <p>
-                  I independently decided whether most opportunities should
-                  proceed. Requests involving official Stress Capital
-                  communications, such as a dedicated post on the community&apos;s X
-                  account, were escalated to the core team because they fell
-                  outside my authority.
+                  Across several Psychology and research courses, I regularly coordinated
+                  groups of approximately five to seven students. Responsibilities
+                  included organizing work, monitoring progress, consolidating
+                  contributions, reviewing report accuracy, checking consistency and
+                  formatting, and helping ensure deadlines were met.
                 </p>
-              </div>
-            </article>
-          </div>
-        </section>
+                <small>
+                  Group reports frequently received positive feedback regarding their
+                  organization and presentation. No grade, award, or ranking is implied.
+                </small>
+              </article>
 
-        <section className="scale-section" aria-labelledby="scale-title">
-          <div className="section-shell scale-grid">
-            <div className="scale-number" aria-hidden="true">100+</div>
-            <div>
-              <h2 id="scale-title">Web3 Collaborations</h2>
-              <p>
-                Across Chillchat and Stress Capital DAO, I handled more than 100
-                collaboration opportunities involving project research, outreach,
-                negotiation, allocation distribution, and partner communication.
-              </p>
-              <small>Conservative count; not an exact analytics metric.</small>
+              <article className="confidentiality-card">
+                <span className="confidentiality-mark" aria-hidden="true">01</span>
+                <p className="eyebrow">Responsible data handling</p>
+                <h3>Handling Confidential Information</h3>
+                <p>
+                  Academic research and interviewing required respondent information to
+                  be handled confidentially. This developed my awareness of responsible
+                  data handling, privacy, discretion, and the importance of maintaining
+                  accurate and controlled documentation.
+                </p>
+                <p className="confidentiality-note">
+                  This refers to academic respondent information and does not imply prior
+                  experience handling employee records or formal organizational databases.
+                </p>
+              </article>
             </div>
           </div>
         </section>
 
-        <section className="section section-paper tools-section" id="tools">
+        <section className="section skills-section" id="skills">
           <div className="section-shell">
-            <div className="section-title-row compact-title-row">
-              <h2>Tools</h2>
-              <p className="section-standfirst">
-                Platforms used to communicate, distribute access, document work,
-                and keep communities safe.
-              </p>
-            </div>
+            <SectionHeading
+              eyebrow="Capabilities & tools"
+              title="Skills"
+              description="Broadly relevant skills and tools, described without proficiency percentages or inflated claims."
+            />
 
-            <div className="tool-grid">
-              {portfolioData.tools.map((group, index) => (
-                <section key={group.category}>
+            <div className="skill-category-grid">
+              {portfolioData.skillCategories.map((group, index) => (
+                <article className={group.secondary ? 'skill-category secondary-skill' : 'skill-category'} key={group.category}>
                   <span>{String(index + 1).padStart(2, '0')}</span>
                   <h3>{group.category}</h3>
-                  <ul>
-                    {group.items.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </section>
+                  <TagList items={group.items} />
+                  {group.secondary ? <small>Secondary tools used for online communication.</small> : null}
+                </article>
+              ))}
+            </div>
+
+            <aside className="excel-panel">
+              <div>
+                <p className="eyebrow">Microsoft Excel</p>
+                <h3>Basic to Intermediate</h3>
+                <p>No advanced proficiency claim is implied.</p>
+              </div>
+              <TagList items={portfolioData.excelSkills} />
+            </aside>
+
+            <div className="language-grid">
+              {portfolioData.languages.map((language) => (
+                <article key={language.language}>
+                  <p className="eyebrow">Language</p>
+                  <h3>{language.language}</h3>
+                  <strong>{language.level}</strong>
+                  <p>{language.context}</p>
+                </article>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="section communication-section">
-          <div className="section-shell communication-grid">
-            <article>
-              <span className="communication-mark" aria-hidden="true">EN</span>
-              <h2>Working Across International Communities</h2>
-              <p>
-                English was the primary language I used for written communication
-                with community members and Web3 project teams from different
-                countries. My responsibilities regularly involved written
-                outreach, partnership negotiation, clarification of collaboration
-                requirements, issue resolution, and follow-up communication.
-              </p>
-              <p className="emphasis-line">
-                My experience is strongest in written English communication,
-                particularly in fast-moving online community environments.
-              </p>
-            </article>
+        <section className="section training-section" id="training">
+          <div className="section-shell">
+            <SectionHeading
+              eyebrow="Continued learning"
+              title="Training & Development"
+              description="University training programs included as learning experience, not professional employment or independent certifications."
+            />
 
-            <article className="psychology-card">
-              <span className="communication-mark" aria-hidden="true">Ψ</span>
-              <h2>A Psychology Background</h2>
-              <p>
-                My academic background in Psychology complements my community
-                experience through training in interviewing, behavioral
-                observation, research, structured communication, and working with
-                confidential information.
+            <ol className="training-list">
+              {portfolioData.training.map((training, index) => (
+                <li key={training.title}>
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <div>
+                    <h3>{training.title}</h3>
+                    <p>{training.institution} · University training program</p>
+                  </div>
+                  <time>{training.year}</time>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        <section className="interest-section" id="interests" aria-labelledby="interest-title">
+          <div className="section-shell interest-grid">
+            <div>
+              <p className="eyebrow eyebrow-on-dark">Professional direction</p>
+              <h2 id="interest-title">Areas of Interest</h2>
+              <p className="interest-lead">
+                I am exploring entry-level opportunities where people, communication,
+                coordination, research, operations, and organized processes intersect.
               </p>
               <p>
-                I also regularly coordinated academic teams of approximately five
-                to seven members in completing research-based projects and reports.
+                These are fields I am interested in developing professionally—not areas in
+                which I claim established expertise.
               </p>
-            </article>
+            </div>
+
+            <aside className="interest-card">
+              <span>Professional areas I am interested in exploring</span>
+              <TagList items={portfolioData.areasOfInterest} />
+            </aside>
+          </div>
+        </section>
+
+        <section className="education-section" id="education" aria-labelledby="education-title">
+          <div className="section-shell education-grid">
+            <div>
+              <p className="eyebrow eyebrow-on-dark">Education</p>
+              <h2 id="education-title">{portfolioData.education.institution}</h2>
+              <p className="education-degree">{portfolioData.education.degree}</p>
+              <p className="education-status">{portfolioData.education.status}</p>
+            </div>
+
+            <dl className="education-facts">
+              <div>
+                <dt>Period</dt>
+                <dd>{portfolioData.education.period}</dd>
+              </div>
+              <div>
+                <dt>Expected graduation</dt>
+                <dd>{portfolioData.education.expectedGraduation}</dd>
+              </div>
+              <div>
+                <dt>GPA</dt>
+                <dd>{portfolioData.education.gpa}</dd>
+              </div>
+            </dl>
+
+            <div className="education-exposure">
+              <span>Relevant academic exposure</span>
+              <TagList items={portfolioData.education.exposure} />
+            </div>
           </div>
         </section>
 
         <aside className="portfolio-note" aria-labelledby="portfolio-note-title">
           <div className="section-shell note-grid">
             <h2 id="portfolio-note-title">Portfolio Note</h2>
-            <p>
-              The experiences presented in this portfolio took place primarily
-              through real-time community interactions and private partnership
-              communications between 2022 and 2024. Due to the age and private
-              nature of these activities, original conversation records and
-              internal materials are not included. These case studies are
-              reconstructed from my actual responsibilities, workflows, and
-              experience.
-            </p>
+            <div>
+              <p>
+                The volunteer experiences presented in this portfolio were primarily
+                conducted through online community interactions and private collaboration
+                communications between 2022 and 2024. Due to the age and private nature of
+                these activities, original conversation records and internal materials are
+                not included. The case studies reflect my actual responsibilities,
+                workflows, and experience.
+              </p>
+              <p>
+                Academic projects are clearly identified as academic experience and are
+                not presented as formal professional employment.
+              </p>
+            </div>
           </div>
         </aside>
 
         <section className="contact-section" id="contact" aria-labelledby="contact-title">
           <div className="section-shell contact-grid">
             <div>
-              <p className="contact-location">{portfolioData.location}</p>
+              <p className="eyebrow">Contact</p>
               <h2 id="contact-title">Let&apos;s Connect</h2>
               <p>
-                I am currently exploring opportunities where I can apply my
-                experience in community management, communication, and partnerships
-                while continuing to develop professionally in Community &amp;
-                Public Relations.
+                I am currently exploring opportunities where I can apply and further
+                develop my experience in communication, coordination, research, data
+                organization, and people-related work.
               </p>
             </div>
 
             <div className="contact-actions">
-              <a className="contact-link primary-contact" href={`mailto:${portfolioData.email}`}>
+              <a className="email-primary" href={`mailto:${profile.email}`}>
                 <span>Email</span>
-                <strong>{portfolioData.email}</strong>
+                <strong>{profile.email}</strong>
                 <span aria-hidden="true">↗</span>
               </a>
-              <a
-                className="contact-link"
-                href={portfolioData.linkedin}
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a href={profile.linkedin} target="_blank" rel="noreferrer">
                 <span>LinkedIn</span>
-                <strong>linkedin.com/in/fathan-imaad</strong>
+                <strong>View profile</strong>
                 <span aria-hidden="true">↗</span>
               </a>
-              <DownloadCvLink className="contact-link" />
             </div>
           </div>
         </section>
@@ -604,8 +550,9 @@ export default function Home() {
 
       <footer className="site-footer">
         <div>
-          <span>Fathan Imaad</span>
-          <span>Community Management &amp; Partnerships</span>
+          <span>{profile.name}</span>
+          <span>Professional Portfolio</span>
+          <span>Final-year Psychology student</span>
         </div>
       </footer>
     </div>
