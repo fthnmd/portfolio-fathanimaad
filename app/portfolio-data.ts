@@ -1,7 +1,7 @@
 export const portfolioData = {
   profile: {
     name: 'Fathan Imaad',
-    eyebrow: 'Final-year Psychology student',
+    eyebrow: 'Psychology student building toward HR',
     email: 'fathanimaad@gmail.com',
     linkedin: 'https://www.linkedin.com/in/fathan-imaad/',
     resumePath: '/fathan-imaad-cv.pdf',
@@ -10,6 +10,7 @@ export const portfolioData = {
     { label: 'About', href: '#about' },
     { label: 'Experience', href: '#experience' },
     { label: 'Academic', href: '#academic' },
+    { label: 'Education', href: '#education' },
     { label: 'Skills', href: '#skills' },
     { label: 'Training', href: '#training' },
     { label: 'Interests', href: '#interests' },
@@ -17,9 +18,9 @@ export const portfolioData = {
   ],
   hero: {
     summary:
-      'Final-year Psychology student with experience in academic research, community operations, collaboration management, data handling, and structured communication.',
+      'Final-year Psychology student building toward entry-level HR and People Operations roles, with experience in research, community operations, coordination, data handling, and structured communication.',
     direction:
-      'I am interested in work involving people, communication, coordination, research, organization, and structured problem-solving.',
+      'I am especially interested in recruitment, people operations, HR administration, and research where careful coordination supports better work with people.',
     highlights: [
       {
         value: '100+',

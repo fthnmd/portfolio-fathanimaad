@@ -25,14 +25,14 @@ const metadataBase = new URL(
     ? deploymentHost.startsWith('http')
       ? deploymentHost
       : `https://${deploymentHost}`
-    : 'http://localhost:3000',
+    : 'https://fathanimaad.me',
 );
 
 export const metadata: Metadata = {
   metadataBase,
-  title: 'Fathan Imaad | Professional Portfolio',
+  title: 'Fathan Imaad | HR and People Operations Portfolio',
   description:
-    'Final-year Psychology student with experience in academic research, data organization, community operations, collaboration management, structured communication, and team coordination.',
+    'Final-year Psychology student building toward HR and People Operations roles through experience in research, coordination, community operations, data handling, and structured communication.',
   applicationName: 'Fathan Imaad Portfolio',
   authors: [{ name: 'Fathan Imaad' }],
   category: 'portfolio',
@@ -40,6 +40,9 @@ export const metadata: Metadata = {
     'Fathan Imaad',
     'professional portfolio',
     'Psychology student',
+    'Human Resources',
+    'People Operations',
+    'recruitment',
     'academic research',
     'data organization',
     'community operations',
@@ -58,24 +61,27 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    title: 'Fathan Imaad — Professional Portfolio',
+    title: 'Fathan Imaad — HR and People Operations Portfolio',
     description:
-      'Final-year Psychology student with experience in research, data organization, community operations, collaboration management, structured communication, and team coordination.',
+      'Final-year Psychology student building toward HR and People Operations roles through experience in research, coordination, community operations, data handling, and structured communication.',
     siteName: 'Fathan Imaad Portfolio',
     images: [
       {
         url: '/og-professional.png',
-        width: 1730,
+        width: 1731,
         height: 909,
         alt: 'Fathan Imaad — research, coordination, communication, and data',
       },
     ],
   },
+  icons: {
+    icon: '/favicon.svg',
+  },
   twitter: {
     card: 'summary_large_image',
-    title: 'Fathan Imaad — Professional Portfolio',
+    title: 'Fathan Imaad — HR and People Operations Portfolio',
     description:
-      'Final-year Psychology student with experience in research, data organization, community operations, collaboration management, structured communication, and team coordination.',
+      'Final-year Psychology student building toward HR and People Operations roles through experience in research, coordination, community operations, data handling, and structured communication.',
     images: ['/og-professional.png'],
   },
 };

@@ -105,9 +105,9 @@ export default function Home() {
               <p className="eyebrow hero-eyebrow">{profile.eyebrow}</p>
               <h1 id="hero-title">{profile.name}</h1>
               <p className="hero-identity">
-                Research <span aria-hidden="true">·</span> Coordination{' '}
-                <span aria-hidden="true">·</span> Communication{' '}
-                <span aria-hidden="true">·</span> Data
+                HR <span aria-hidden="true">/</span> People Operations{' '}
+                <span aria-hidden="true">/</span> Research{' '}
+                <span aria-hidden="true">/</span> Coordination
               </p>
               <p className="hero-summary">{portfolioData.hero.summary}</p>
               <p className="hero-direction">{portfolioData.hero.direction}</p>
@@ -131,15 +131,19 @@ export default function Home() {
                 <span>2026</span>
               </div>
               <p className="candidate-card-kicker">Current profile</p>
-              <h2>People, research, data, and structured execution.</h2>
+              <h2>Preparing for people-focused work in HR and operations.</h2>
               <dl>
                 <div>
                   <dt>Education</dt>
                   <dd>Bachelor of Psychology</dd>
                 </div>
                 <div>
+                  <dt>Direction</dt>
+                  <dd>HR and People Operations</dd>
+                </div>
+                <div>
                   <dt>Experience</dt>
-                  <dd>Academic projects & volunteer roles</dd>
+                  <dd>Academic projects and volunteer roles</dd>
                 </div>
                 <div>
                   <dt>Current status</dt>
@@ -175,7 +179,7 @@ export default function Home() {
             <div className="about-grid">
               <p className="about-lead">
                 Psychology gives me a foundation for understanding people. My experience
-                taught me how to organize the work around them.
+                taught me how to bring structure to the work around them.
               </p>
               <div className="prose-column">
                 <p>
@@ -209,7 +213,7 @@ export default function Home() {
             <SectionHeading
               eyebrow="Real responsibilities"
               title="Volunteer Experience"
-              description="Unpaid community-based roles presented in general professional language, without treating them as employment in another field."
+              description="Volunteer community roles involving partnerships, moderation, coordination, and issue handling."
             />
 
             <div className="experience-list">
@@ -320,7 +324,7 @@ export default function Home() {
             <SectionHeading
               eyebrow="Academic experience"
               title="Selected Academic Projects"
-              description="University work presented clearly as academic experience—not formal professional employment."
+              description="Academic work showing research, documentation, data handling, and team coordination."
             />
 
             <div className="project-grid">
@@ -388,7 +392,7 @@ export default function Home() {
             <SectionHeading
               eyebrow="Capabilities & tools"
               title="Skills"
-              description="Broadly relevant skills and tools, described without proficiency percentages or inflated claims."
+              description="Skills and tools relevant to research, HR coordination, documentation, and people operations."
             />
 
             <div className="skill-category-grid">
@@ -429,7 +433,7 @@ export default function Home() {
             <SectionHeading
               eyebrow="Continued learning"
               title="Training & Development"
-              description="University training programs included as learning experience, not professional employment or independent certifications."
+              description="University training programs that shaped my foundation in recruitment and human resource development."
             />
 
             <ol className="training-list">
@@ -526,9 +530,9 @@ export default function Home() {
               <p className="eyebrow">Contact</p>
               <h2 id="contact-title">Let&apos;s Connect</h2>
               <p>
-                I am currently exploring opportunities where I can apply and further
-                develop my experience in communication, coordination, research, data
-                organization, and people-related work.
+                I am currently exploring entry-level opportunities in HR and People
+                Operations where I can apply and develop my experience in communication,
+                coordination, research, data organization, and people-related work.
               </p>
             </div>
 
