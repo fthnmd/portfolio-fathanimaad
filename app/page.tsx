@@ -1,10 +1,28 @@
 import { portfolioData } from './portfolio-data';
 
+function ArrowIcon({ direction = 'up-right' }: { direction?: 'up-right' | 'down' }) {
+  if (direction === 'down') {
+    return (
+      <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" focusable="false" aria-hidden="true">
+        <path d="M12 5v14" />
+        <path d="m6 13 6 6 6-6" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" focusable="false" aria-hidden="true">
+      <path d="M5 19 19 5" />
+      <path d="M8 5h11v11" />
+    </svg>
+  );
+}
+
 function ResumeLink({ className = '' }: { className?: string }) {
   return (
     <a className={className} href={portfolioData.profile.resumePath} target="_blank" rel="noreferrer">
       View Resume
-      <span aria-hidden="true">↗</span>
+      <ArrowIcon />
     </a>
   );
 }
@@ -115,12 +133,12 @@ export default function Home() {
               <div className="hero-actions" aria-label="Primary actions">
                 <a className="button button-primary" href="#experience">
                   Explore My Experience
-                  <span aria-hidden="true">↓</span>
+                  <ArrowIcon direction="down" />
                 </a>
                 <ResumeLink className="button button-secondary" />
                 <a className="button button-tertiary" href={`mailto:${profile.email}`}>
                   Contact Me
-                  <span aria-hidden="true">↗</span>
+                  <ArrowIcon />
                 </a>
               </div>
             </div>
@@ -540,12 +558,12 @@ export default function Home() {
               <a className="email-primary" href={`mailto:${profile.email}`}>
                 <span>Email</span>
                 <strong>{profile.email}</strong>
-                <span aria-hidden="true">↗</span>
+                <ArrowIcon />
               </a>
               <a href={profile.linkedin} target="_blank" rel="noreferrer">
                 <span>LinkedIn</span>
                 <strong>View profile</strong>
-                <span aria-hidden="true">↗</span>
+                <ArrowIcon />
               </a>
             </div>
           </div>

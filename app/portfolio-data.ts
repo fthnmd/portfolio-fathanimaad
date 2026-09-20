@@ -219,7 +219,7 @@ export const portfolioData = {
     'MIN',
     'Sort',
     'Filter',
-    'Basic PivotTables',
+    'PivotTables',
   ],
   languages: [
     {
