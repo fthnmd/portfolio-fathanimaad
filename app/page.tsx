@@ -1,582 +1,70 @@
-import { portfolioData } from './portfolio-data';
+import { portfolioData as data } from './portfolio-data';
+import { Navigation } from './components/navigation';
 
-function ArrowIcon({ direction = 'up-right' }: { direction?: 'up-right' | 'down' }) {
-  if (direction === 'down') {
-    return (
-      <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" focusable="false" aria-hidden="true">
-        <path d="M12 5v14" />
-        <path d="m6 13 6 6 6-6" />
-      </svg>
-    );
-  }
+function Arrow({ diagonal = false }: { diagonal?: boolean }) {
+  return <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d={diagonal ? 'M5 19 19 5M8 5h11v11' : 'M4 12h15m-6-6 6 6-6 6'} /></svg>;
+}
 
-  return (
-    <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" focusable="false" aria-hidden="true">
-      <path d="M5 19 19 5" />
-      <path d="M8 5h11v11" />
-    </svg>
-  );
+function SectionIntro({ id, kicker, title, note }: { id: string; kicker: string; title: string; note?: string }) {
+  return <header className="section-intro"><p className="kicker">{kicker}</p><div className="section-intro-line"><h2 id={id}>{title}</h2>{note && <p>{note}</p>}</div></header>;
+}
+
+function Tags({ items }: { items: readonly string[] }) {
+  return <ul className="tags">{items.map(item => <li key={item}>{item}</li>)}</ul>;
 }
 
 function ResumeLink({ className = '' }: { className?: string }) {
-  return (
-    <a className={className} href={portfolioData.profile.resumePath} target="_blank" rel="noreferrer">
-      View Resume
-      <ArrowIcon />
-    </a>
-  );
-}
-
-function SectionHeading({
-  eyebrow,
-  title,
-  description,
-}: {
-  eyebrow: string;
-  title: string;
-  description?: string;
-}) {
-  return (
-    <header className="section-heading">
-      <p className="eyebrow">{eyebrow}</p>
-      <div className="section-heading-row">
-        <h2>{title}</h2>
-        {description ? <p>{description}</p> : null}
-      </div>
-    </header>
-  );
-}
-
-function TagList({ items }: { items: readonly string[] }) {
-  return (
-    <ul className="tag-list">
-      {items.map((item) => (
-        <li key={item}>{item}</li>
-      ))}
-    </ul>
-  );
+  return <a className={className} href={data.profile.resumePath} download="Fathan-Imaad-CV.pdf">Download CV <Arrow diagonal /></a>;
 }
 
 export default function Home() {
-  const { profile } = portfolioData;
+  const { profile } = data;
   const personJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Person',
-    name: profile.name,
+    '@context': 'https://schema.org', '@type': 'Person', name: profile.name,
     email: `mailto:${profile.email}`,
-    jobTitle: 'Final-year Psychology student',
-    affiliation: {
-      '@type': 'CollegeOrUniversity',
-      name: portfolioData.education.institution,
-    },
+    affiliation: { '@type': 'CollegeOrUniversity', name: data.education.institution },
     sameAs: [profile.linkedin],
   };
 
-  return (
-    <div className="site-shell">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
-      />
-
-      <a className="skip-link" href="#main-content">
-        Skip to content
-      </a>
-
-      <header className="site-header">
-        <div className="nav-shell">
-          <a className="wordmark" href="#top" aria-label={`${profile.name}, home`}>
-            <span className="wordmark-copy">
-              {profile.name}
-              <small>Professional profile</small>
-            </span>
-          </a>
-
-          <nav className="desktop-nav" aria-label="Primary navigation">
-            {portfolioData.navigation.map((item) => (
-              <a key={item.href} href={item.href}>
-                {item.label}
-              </a>
-            ))}
-          </nav>
-
-          <ResumeLink className="nav-cv" />
-
-          <details className="mobile-menu">
-            <summary aria-label="Open navigation">Menu</summary>
-            <nav aria-label="Mobile navigation">
-              {portfolioData.navigation.map((item) => (
-                <a key={item.href} href={item.href}>
-                  {item.label}
-                </a>
-              ))}
-              <ResumeLink />
-            </nav>
-          </details>
+  return <>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd).replace(/</g, '\\u003c') }} />
+    <a className="skip-link" href="#main-content">Skip to content</a>
+    <header className="mobile-header"><a className="mobile-brand" href="#overview" aria-label="Fathan Imaad — top of page"><span className="brand-monogram">FI<span>.</span></span><span>Fathan Imaad</span></a><Navigation mobile /></header>
+    <div className="site-frame">
+      <aside className="identity-pane" aria-label="Profile and navigation">
+        <div className="identity-top">
+          <a className="identity-brand" href="#overview" aria-label="Fathan Imaad — top of page"><span className="brand-monogram">FI<span>.</span></span><span>PERSONAL PORTFOLIO<br />PEOPLE &amp; OPERATIONS</span></a>
+          <div className="identity-headline"><p className="rail-label">A little about me</p><p>Fathan<br /><em>Imaad.</em></p><span>Psychology student with experience in volunteer community operations, collaboration management, and academic research.</span></div>
+          <Navigation />
         </div>
-      </header>
+        <div className="identity-bottom"><p>Interested in entry-level people, HR, research, and operations work.</p><a href={`mailto:${profile.email}`}>Let&apos;s connect <Arrow diagonal /></a><span>Universitas Gunadarma · Indonesia</span></div>
+      </aside>
 
-      <main id="main-content">
-        <section className="hero" id="top" aria-labelledby="hero-title">
-          <div className="hero-shell">
-            <div className="hero-copy">
-              <p className="eyebrow hero-eyebrow">{profile.eyebrow}</p>
-              <h1 id="hero-title">{profile.name}</h1>
-              <p className="hero-identity">
-                HR <span aria-hidden="true">/</span> People Operations{' '}
-                <span aria-hidden="true">/</span> Research{' '}
-                <span aria-hidden="true">/</span> Coordination
-              </p>
-              <p className="hero-summary">{portfolioData.hero.summary}</p>
-              <p className="hero-direction">{portfolioData.hero.direction}</p>
-
-              <div className="hero-actions" aria-label="Primary actions">
-                <a className="button button-primary" href="#experience">
-                  Explore My Experience
-                  <ArrowIcon direction="down" />
-                </a>
-                <ResumeLink className="button button-secondary" />
-                <a className="button button-tertiary" href={`mailto:${profile.email}`}>
-                  Contact Me
-                  <ArrowIcon />
-                </a>
-              </div>
-            </div>
-
-            <aside className="candidate-card" aria-label="Professional overview">
-              <div className="candidate-card-header">
-                <span>Professional overview</span>
-                <span>2026</span>
-              </div>
-              <p className="candidate-card-kicker">Current profile</p>
-              <h2>Preparing for people-focused work in HR and operations.</h2>
-              <dl>
-                <div>
-                  <dt>Education</dt>
-                  <dd>Bachelor of Psychology</dd>
-                </div>
-                <div>
-                  <dt>Direction</dt>
-                  <dd>HR and People Operations</dd>
-                </div>
-                <div>
-                  <dt>Experience</dt>
-                  <dd>Academic projects and volunteer roles</dd>
-                </div>
-                <div>
-                  <dt>Current status</dt>
-                  <dd>Undergraduate thesis stage</dd>
-                </div>
-              </dl>
-              <p className="candidate-availability">
-                Completed all regular coursework and currently focusing on the
-                undergraduate thesis. Expected graduation: 2026.
-              </p>
-            </aside>
+      <main id="main-content" className="content-pane">
+        <section className="overview" id="overview" aria-labelledby="hero-title">
+          <div className="topline"><span>FATHAN IMAAD / PROFESSIONAL PORTFOLIO</span><span>2026</span></div>
+          <div className="hero-grid">
+            <div className="hero-content"><p className="kicker"><span className="kicker-dash" /> Psychology · People · Operations</p><h1 id="hero-title">The people<br />behind <em>the work.</em></h1><p className="hero-lead">I&apos;m Fathan, a final-year Psychology student interested in the systems and conversations that help people work together.</p><p className="hero-support">My experience spans volunteer community operations, external collaboration, academic research, and coordinating small teams. I&apos;m now looking to bring that foundation into entry-level HR and People Operations.</p><div className="hero-actions"><a className="button button-primary" href="#experience">Explore experience <Arrow /></a><ResumeLink className="button button-outline" /></div></div>
+            <aside className="hero-side" aria-label="Current profile"><div className="hero-side-top"><span>AT A GLANCE</span><svg className="side-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M12 1v22M1 12h22M4.2 4.2l15.6 15.6M19.8 4.2 4.2 19.8" /></svg></div><div className="hero-side-center"><span className="side-stamp" aria-hidden="true">F/I</span><p>Psychology informs<br /><em>how I listen.</em><br />Structure shapes<br /><em>how I work.</em></p></div><div className="hero-side-bottom"><span>Currently</span><strong>Completing undergraduate thesis</strong><small>Universitas Gunadarma · Expected graduation 2026</small></div></aside>
           </div>
-
-          <ul className="highlight-grid" aria-label="Profile highlights">
-            {portfolioData.hero.highlights.map((highlight) => (
-              <li key={highlight.value}>
-                <span className="highlight-value">{highlight.value}</span>
-                <strong>{highlight.label}</strong>
-                <small>{highlight.note}</small>
-              </li>
-            ))}
-          </ul>
+          <div className="metrics" aria-label="Experience highlights">{data.hero.highlights.map(item => <div className="metric" key={item.value}><strong>{item.value}</strong><p>{item.label}<br />{item.note}</p></div>)}</div>
+          <p className="metric-note">The 100+ figure covers collaboration opportunities across both Chillchat Holdings Pte. Ltd. and Stress Capital; it does not represent completed partnerships.</p>
         </section>
 
-        <section className="section about-section" id="about">
-          <div className="section-shell">
-            <SectionHeading
-              eyebrow="Profile"
-              title="About Me"
-              description="A broad professional profile built through academic work and real volunteer responsibilities."
-            />
-
-            <div className="about-grid">
-              <p className="about-lead">
-                Psychology gives me a foundation for understanding people. My experience
-                taught me how to bring structure to the work around them.
-              </p>
-              <div className="prose-column">
-                <p>
-                  I am a final-year Psychology student at Universitas Gunadarma with
-                  experience across academic research, community operations,
-                  collaboration management, data organization, and structured
-                  documentation.
-                </p>
-                <p>
-                  My academic background has exposed me to interviewing, quantitative and
-                  qualitative research, job analysis, psychological measurement, data
-                  processing, and confidential information handling. Across several
-                  projects, I regularly coordinated groups of approximately five to seven
-                  students by organizing responsibilities, monitoring progress,
-                  consolidating contributions, and reviewing reports before deadlines.
-                </p>
-                <p>
-                  Outside academics, I gained volunteer experience working with
-                  international communities and external project representatives. These
-                  responsibilities involved professional written communication in English,
-                  outreach, negotiation, coordination, follow-up, issue handling, and
-                  managing multiple ongoing activities.
-                </p>
-              </div>
-            </div>
-          </div>
+        <section className="portfolio-section experience-section" id="experience" aria-labelledby="experience-title"><SectionIntro id="experience-title" kicker="THE WORK / VOLUNTEER" title="Experience, in practice." note="Communication, coordination, and sound judgment in international online communities." /><div className="experience-list">
+          {data.volunteerExperience.map((job, index) => <article className="experience-entry" key={`${job.organization}-${job.role}`}><div className="experience-date"><span>{String(index + 1).padStart(2, '0')}</span><span>{job.period}</span></div><div className="experience-content"><div className="experience-title"><div><p>{job.organization} <span>/ {job.type}</span></p><h3>{job.role}</h3></div></div><p className="entry-highlight">{index === 0 ? 'Researching partners, weighing public risk signals, and coordinating external opportunities.' : index === 1 ? 'Connecting outside projects with the community, from first outreach through participant follow-up.' : 'Helping an international community communicate clearly, resolve issues, and stay constructive.'}</p><ul className="entry-points">{job.bullets.slice(0, 3).map(bullet => <li key={bullet}>{bullet}</li>)}</ul><details className="entry-more"><summary>Full role details <span aria-hidden="true">+</span></summary><ul>{job.bullets.slice(3).map(bullet => <li key={bullet}>{bullet}</li>)}</ul></details></div></article>)}
+        </div><div className="case-notes"><div className="case-heading"><p className="kicker">SITUATIONS &amp; JUDGMENT</p><h3>How I approached<br /><em>the difficult parts.</em></h3><span>Selected examples from volunteer work, described without private records.</span></div><article className="case-note"><span>Community concerns</span><h4>Making space for criticism without letting conflict escalate.</h4><p>During periods of member frustration, I allowed constructive disagreement while setting boundaries around personal conflict. Questions outside my authority were escalated to the appropriate team.</p></article><article className="case-note"><span>Partner screening</span><h4>Checking public signals before moving an opportunity forward.</h4><p>I reviewed publicly available activity, team background, and engagement quality for credibility concerns, then shared relevant findings before a decision was made. This was practical screening, not formal due diligence.</p></article></div>
         </section>
 
-        <section className="section experience-section" id="experience">
-          <div className="section-shell">
-            <SectionHeading
-              eyebrow="Real responsibilities"
-              title="Volunteer Experience"
-              description="Volunteer community roles involving partnerships, moderation, coordination, and issue handling."
-            />
+        <section className="portfolio-section academic-section" id="academic" aria-labelledby="academic-title"><SectionIntro id="academic-title" kicker="THE FOUNDATION / ACADEMIC" title="Research & coursework." note="One applied job-analysis project and four separate Psychology courses, not professional HR employment." /><div className="academic-grid">{data.academicProjects.map((project, index) => <article key={project.title} className={`academic-item academic-item-${index}`}><span className="academic-index">{project.kind.toUpperCase()} / {project.index}</span><h3>{project.title}</h3><p>{project.summary}</p><div className="academic-bottom"><Tags items={project.areas.slice(0, 3)} />{project.bullets.length > 0 && <details><summary>Read course scope <span aria-hidden="true">+</span></summary><ul>{project.bullets.map(bullet => <li key={bullet}>{bullet}</li>)}</ul></details>}</div></article>)}</div><div className="research-strip"><span className="research-mark" aria-hidden="true">5–7</span><div><p className="kicker">TEAM COORDINATION</p><h3>Keeping academic projects organized</h3><p>Across several Psychology and research courses, I regularly coordinated groups of approximately five to seven students: organizing responsibilities, tracking progress, consolidating contributions, and reviewing reports before deadlines.</p></div></div></section>
 
-            <div className="experience-list">
-              {portfolioData.volunteerExperience.map((experience, index) => (
-                <article className="experience-card" key={`${experience.organization}-${experience.role}`}>
-                  <div className="experience-meta">
-                    <span>{String(index + 1).padStart(2, '0')}</span>
-                    <time>{experience.period}</time>
-                  </div>
-                  <header>
-                    <p>{experience.organization}</p>
-                    <h3>{experience.role}</h3>
-                    <small>{experience.type}</small>
-                  </header>
-                  <ul className="bullet-list">
-                    {experience.bullets.map((bullet) => (
-                      <li key={bullet}>{bullet}</li>
-                    ))}
-                  </ul>
-                </article>
-              ))}
-            </div>
+        <section className="portfolio-section skills-section" id="skills" aria-labelledby="skills-title"><SectionIntro id="skills-title" kicker="WHAT I BRING / CAPABILITIES" title="Skills & tools." note="Foundations from academic courses, HR training, and volunteer work—not a claim of formal HR employment." /><div className="skill-board">{data.skillCategories.map((group, index) => <div className="skill-row" key={group.category}><div className="skill-row-label"><span>{String(index + 1).padStart(2, '0')}</span><h3>{group.category}</h3></div><Tags items={group.items} /></div>)}</div><div className="skills-foot"><div><p className="kicker">TOOL SPOTLIGHT</p><h3>Microsoft Excel</h3><p>Used to organize and process research data in academic work.</p><Tags items={data.excelSkills} /></div><div><p className="kicker">LANGUAGES</p>{data.languages.map(language => <div className="language-item" key={language.language}><h3>{language.language}</h3><span>{language.level}</span><p>{language.context}</p></div>)}</div></div></section>
 
-            <aside className="collaboration-callout">
-              <div className="callout-number">100+</div>
-              <div>
-                <p className="eyebrow eyebrow-on-dark">Scale of coordination</p>
-                <h3>Collaboration Opportunities Coordinated</h3>
-                <p>
-                  Across two volunteer communities, I handled more than 100 collaboration
-                  opportunities involving research, outreach, negotiation, coordination,
-                  participant information, deadlines, follow-up, and external
-                  communication.
-                </p>
-                <small>
-                  A conservative opportunity count—not 100 successful partnerships. The
-                  exact total was not formally recorded.
-                </small>
-              </div>
-            </aside>
+        <section className="portfolio-section background-section" id="background" aria-labelledby="background-title"><SectionIntro id="background-title" kicker="EDUCATION / NEXT STEPS" title="Where I'm headed." note="An academic background in Psychology and an interest in people-focused, process-oriented work." /><div className="background-main"><div className="degree-card"><span className="degree-kicker">UNIVERSITAS GUNADARMA</span><h3>Bachelor of<br /><em>Psychology.</em></h3><p>All regular coursework completed; currently focused on the undergraduate thesis.</p><dl><div><dt>Period</dt><dd>{data.education.period}</dd></div><div><dt>Expected graduation</dt><dd>{data.education.expectedGraduation}</dd></div><div><dt>GPA</dt><dd>{data.education.gpa}</dd></div></dl></div><div className="direction-card"><p className="kicker">PROFESSIONAL INTERESTS</p><p className="direction-lead">A place where <em>people, research,</em> and careful coordination meet.</p><p>I&apos;m seeking internships and entry-level opportunities in HR, recruitment, people operations, HR administration, and research. These are directions I want to develop, not areas in which I claim established expertise.</p><Tags items={data.areasOfInterest.slice(0, 6)} /></div></div><div className="training-block"><h3>Relevant training <span>Universitas Gunadarma</span></h3><ol>{data.training.map(item => <li key={item.title}><span>{item.year}</span><span>{item.title}</span></li>)}</ol></div><p className="evidence-note">Volunteer roles were conducted primarily through online communities and private communications; original conversations and internal material are not published. Academic projects are presented as coursework, not employment.</p></section>
 
-            <div className="case-grid" aria-label="Selected experience case studies">
-              <article className="case-card">
-                <p className="eyebrow">Community operations case</p>
-                <h3>Managing Community Concerns During Organizational Change</h3>
-                <p>
-                  During periods of member frustration, I allowed constructive criticism
-                  and differing opinions while maintaining professional boundaries. When
-                  discussions shifted toward personal conflict, I helped de-escalate the
-                  situation and escalated concerns that required information or authority
-                  beyond my role.
-                </p>
-                <ul>
-                  <li>Allowed constructive criticism and respectful disagreement.</li>
-                  <li>Maintained clear boundaries around personal conflict.</li>
-                  <li>Recognized when an issue required escalation.</li>
-                  <li>Communicated responsibly during periods of uncertainty.</li>
-                </ul>
-              </article>
-
-              <article className="case-card case-card-dark">
-                <p className="eyebrow eyebrow-on-dark">Research & judgment case</p>
-                <h3>Project Screening & Risk Awareness</h3>
-                <p>
-                  Before selected opportunities proceeded, I reviewed publicly available
-                  information such as account activity, team background, engagement
-                  quality, public history, and other potential credibility or risk
-                  indicators. Relevant concerns were communicated before a decision was
-                  made.
-                </p>
-                <small>
-                  This was a practical screening process based on public information—not
-                  formal due diligence or an accusation against any specific project.
-                </small>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <section className="workflow-section" aria-labelledby="workflow-title">
-          <div className="section-shell">
-            <div className="workflow-heading">
-              <div>
-                <p className="eyebrow eyebrow-on-dark">Repeatable process</p>
-                <h2 id="workflow-title">Collaboration Workflow</h2>
-              </div>
-              <p>
-                A generalized view of how I moved an opportunity from discovery to final
-                follow-up.
-              </p>
-            </div>
-
-            <ol className="workflow">
-              {portfolioData.workflow.map((step, index) => (
-                <li key={step.title}>
-                  <span className="workflow-node" aria-hidden="true" />
-                  <span className="workflow-index">{String(index + 1).padStart(2, '0')}</span>
-                  <h3>{step.title}</h3>
-                  <p>{step.description}</p>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-
-        <section className="section academic-section" id="academic">
-          <div className="section-shell">
-            <SectionHeading
-              eyebrow="Academic experience"
-              title="Selected Academic Projects"
-              description="Academic work showing research, documentation, data handling, and team coordination."
-            />
-
-            <div className="project-grid">
-              {portfolioData.academicProjects.map((project) => (
-                <article className="project-card" key={project.title}>
-                  <header>
-                    <span>{project.index}</span>
-                    <h3>{project.title}</h3>
-                  </header>
-                  <p className="project-summary">{project.summary}</p>
-                  {project.bullets.length > 0 ? (
-                    <ul className="bullet-list">
-                      {project.bullets.map((bullet) => (
-                        <li key={bullet}>{bullet}</li>
-                      ))}
-                    </ul>
-                  ) : null}
-                  <div className="project-areas">
-                    <span>Relevant skills</span>
-                    <TagList items={project.areas} />
-                  </div>
-                </article>
-              ))}
-            </div>
-
-            <div className="evidence-grid">
-              <article className="coordination-card">
-                <p className="eyebrow">Team coordination</p>
-                <div className="evidence-number">5–7</div>
-                <h3>Academic Team Members Typically Coordinated</h3>
-                <p>
-                  Across several Psychology and research courses, I regularly coordinated
-                  groups of approximately five to seven students. Responsibilities
-                  included organizing work, monitoring progress, consolidating
-                  contributions, reviewing report accuracy, checking consistency and
-                  formatting, and helping ensure deadlines were met.
-                </p>
-                <small>
-                  Group reports frequently received positive feedback regarding their
-                  organization and presentation. No grade, award, or ranking is implied.
-                </small>
-              </article>
-
-              <article className="confidentiality-card">
-                <span className="confidentiality-mark" aria-hidden="true">01</span>
-                <p className="eyebrow">Responsible data handling</p>
-                <h3>Handling Confidential Information</h3>
-                <p>
-                  Academic research and interviewing required respondent information to
-                  be handled confidentially. This developed my awareness of responsible
-                  data handling, privacy, discretion, and the importance of maintaining
-                  accurate and controlled documentation.
-                </p>
-                <p className="confidentiality-note">
-                  This refers to academic respondent information and does not imply prior
-                  experience handling employee records or formal organizational databases.
-                </p>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <section className="section skills-section" id="skills">
-          <div className="section-shell">
-            <SectionHeading
-              eyebrow="Capabilities & tools"
-              title="Skills"
-              description="Skills and tools relevant to research, HR coordination, documentation, and people operations."
-            />
-
-            <div className="skill-category-grid">
-              {portfolioData.skillCategories.map((group, index) => (
-                <article className={group.secondary ? 'skill-category secondary-skill' : 'skill-category'} key={group.category}>
-                  <span>{String(index + 1).padStart(2, '0')}</span>
-                  <h3>{group.category}</h3>
-                  <TagList items={group.items} />
-                  {group.secondary ? <small>Secondary tools used for online communication.</small> : null}
-                </article>
-              ))}
-            </div>
-
-            <aside className="excel-panel">
-              <div>
-                <p className="eyebrow">Microsoft Excel</p>
-                <h3>Basic to Intermediate</h3>
-                <p>No advanced proficiency claim is implied.</p>
-              </div>
-              <TagList items={portfolioData.excelSkills} />
-            </aside>
-
-            <div className="language-grid">
-              {portfolioData.languages.map((language) => (
-                <article key={language.language}>
-                  <p className="eyebrow">Language</p>
-                  <h3>{language.language}</h3>
-                  <strong>{language.level}</strong>
-                  <p>{language.context}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="section training-section" id="training">
-          <div className="section-shell">
-            <SectionHeading
-              eyebrow="Continued learning"
-              title="Training & Development"
-              description="University training programs that shaped my foundation in recruitment and human resource development."
-            />
-
-            <ol className="training-list">
-              {portfolioData.training.map((training, index) => (
-                <li key={training.title}>
-                  <span>{String(index + 1).padStart(2, '0')}</span>
-                  <div>
-                    <h3>{training.title}</h3>
-                    <p>{training.institution} · University training program</p>
-                  </div>
-                  <time>{training.year}</time>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-
-        <section className="interest-section" id="interests" aria-labelledby="interest-title">
-          <div className="section-shell interest-grid">
-            <div>
-              <p className="eyebrow eyebrow-on-dark">Professional direction</p>
-              <h2 id="interest-title">Areas of Interest</h2>
-              <p className="interest-lead">
-                I am exploring entry-level opportunities where people, communication,
-                coordination, research, operations, and organized processes intersect.
-              </p>
-              <p>
-                These are fields I am interested in developing professionally—not areas in
-                which I claim established expertise.
-              </p>
-            </div>
-
-            <aside className="interest-card">
-              <span>Professional areas I am interested in exploring</span>
-              <TagList items={portfolioData.areasOfInterest} />
-            </aside>
-          </div>
-        </section>
-
-        <section className="education-section" id="education" aria-labelledby="education-title">
-          <div className="section-shell education-grid">
-            <div>
-              <p className="eyebrow eyebrow-on-dark">Education</p>
-              <h2 id="education-title">{portfolioData.education.institution}</h2>
-              <p className="education-degree">{portfolioData.education.degree}</p>
-              <p className="education-status">{portfolioData.education.status}</p>
-            </div>
-
-            <dl className="education-facts">
-              <div>
-                <dt>Period</dt>
-                <dd>{portfolioData.education.period}</dd>
-              </div>
-              <div>
-                <dt>Expected graduation</dt>
-                <dd>{portfolioData.education.expectedGraduation}</dd>
-              </div>
-              <div>
-                <dt>GPA</dt>
-                <dd>{portfolioData.education.gpa}</dd>
-              </div>
-            </dl>
-
-            <div className="education-exposure">
-              <span>Relevant academic exposure</span>
-              <TagList items={portfolioData.education.exposure} />
-            </div>
-          </div>
-        </section>
-
-        <aside className="portfolio-note" aria-labelledby="portfolio-note-title">
-          <div className="section-shell note-grid">
-            <h2 id="portfolio-note-title">Portfolio Note</h2>
-            <div>
-              <p>
-                The volunteer experiences presented in this portfolio were primarily
-                conducted through online community interactions and private collaboration
-                communications between 2022 and 2024. Due to the age and private nature of
-                these activities, original conversation records and internal materials are
-                not included. The case studies reflect my actual responsibilities,
-                workflows, and experience.
-              </p>
-              <p>
-                Academic projects are clearly identified as academic experience and are
-                not presented as formal professional employment.
-              </p>
-            </div>
-          </div>
-        </aside>
-
-        <section className="contact-section" id="contact" aria-labelledby="contact-title">
-          <div className="section-shell contact-grid">
-            <div>
-              <p className="eyebrow">Contact</p>
-              <h2 id="contact-title">Let&apos;s Connect</h2>
-              <p>
-                I am currently exploring entry-level opportunities in HR and People
-                Operations where I can apply and develop my experience in communication,
-                coordination, research, data organization, and people-related work.
-              </p>
-            </div>
-
-            <div className="contact-actions">
-              <a className="email-primary" href={`mailto:${profile.email}`}>
-                <span>Email</span>
-                <strong>{profile.email}</strong>
-                <ArrowIcon />
-              </a>
-              <a href={profile.linkedin} target="_blank" rel="noreferrer">
-                <span>LinkedIn</span>
-                <strong>View profile</strong>
-                <ArrowIcon />
-              </a>
-            </div>
-          </div>
-        </section>
+        <section className="contact-section" id="contact" aria-labelledby="contact-title"><div className="contact-top"><p className="kicker">START A CONVERSATION</p><span>FATHAN IMAAD / 2026</span></div><h2 id="contact-title">Let&apos;s make<br /><em>good work happen.</em></h2><p>I&apos;m interested in entry-level HR and People Operations opportunities, as well as roles where research, coordination, and clear communication make a difference.</p><div className="contact-links"><a href={`mailto:${profile.email}`}>Email me <Arrow diagonal /></a><a href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn <Arrow diagonal /></a><ResumeLink /></div><div className="contact-bottom"><span>{profile.email}</span><a href="#overview">Back to top <Arrow /></a></div></section>
+        <footer className="site-footer"><span>© 2026 Fathan Imaad</span><span>Built around real experience.</span></footer>
       </main>
-
-      <footer className="site-footer">
-        <div>
-          <span>{profile.name}</span>
-          <span>Professional Portfolio</span>
-          <span>Final-year Psychology student</span>
-        </div>
-      </footer>
     </div>
-  );
+  </>;
 }
