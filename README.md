@@ -30,7 +30,7 @@ This archive contains the source and lockfile; it does not contain `node_modules
 - `public/og-professional.png` and `public/favicon.svg`: refreshed social preview and favicon consistent with the new color palette.
 - `public/fonts/`: bundled Inter and Playfair Display fonts; no remote font fetch is required at build time.
 
-The design omits the collaboration workflow entirely. Volunteer experience is labeled as such. Quantitative Research, Qualitative Research, Psychological Scale Development, and Measurement Instrument Construction are four separate courses; the last two were confirmed by the owner but are not in the supplied CV. The HR Dashboard prototype is deliberately omitted. The 100+ figure is explained as opportunities across both communities rather than successful partnerships. The public contacts are email, LinkedIn, and the CV download; no phone number is shown in the page itself.
+The design omits the collaboration workflow entirely. Volunteer experience is labeled as such. The academic section shows the job-analysis project and two separate research courses: Quantitative Research and Qualitative Research. Psychological Scale Development and Measurement Instrument Construction were removed from the site at the owner's request, and the HR Dashboard prototype remains omitted. The 100+ figure is explained as opportunities across both communities rather than successful partnerships. The public contacts are email, LinkedIn, and the CV download; no phone number is shown in the page itself. The FI mark appears only in the favicon—not in the page or social preview. The owner performs any deployment manually.
 
 ## Prepublication checklist
 

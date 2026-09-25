@@ -125,24 +125,6 @@ export const portfolioData = {
       ],
       areas: ['Interviewing', 'Communication', 'Confidentiality', 'Documentation', 'Research'],
     },
-    {
-      index: '04',
-      kind: 'Coursework',
-      title: 'Psychological Scale Development',
-      summary:
-        'A distinct Psychology course in psychological scale development.',
-      bullets: [],
-      areas: ['Psychology Coursework'],
-    },
-    {
-      index: '05',
-      kind: 'Coursework',
-      title: 'Measurement Instrument Construction',
-      summary:
-        'A separate Psychology course in measurement instrument construction.',
-      bullets: [],
-      areas: ['Psychology Coursework'],
-    },
   ],
   skillCategories: [
     {
@@ -244,8 +226,6 @@ export const portfolioData = {
       'Interviewing',
       'Quantitative Research',
       'Qualitative Research',
-      'Psychological Scale Development',
-      'Measurement Instrument Construction',
       'Statistics',
     ],
   },
