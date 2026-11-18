@@ -217,8 +217,7 @@ export const portfolioData = {
   education: {
     institution: 'Universitas Gunadarma',
     degree: 'Bachelor of Psychology',
-    period: '2022–Present',
-    expectedGraduation: '2026',
+    period: '2022–2026',
     gpa: '3.69 / 4.00',
     status: 'Graduated in Psychology; ready for full-time roles.',
     exposure: [
