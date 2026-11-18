@@ -11,7 +11,7 @@ const metadataBase = new URL(deploymentHost ? (deploymentHost.startsWith('http')
 export const metadata: Metadata = {
   metadataBase,
   title: 'Fathan Imaad | Psychology, People & Operations',
-  description: 'Fathan Imaad is a final-year Psychology student documenting volunteer work in collaboration management and community operations, alongside academic research and coordination.',
+  description: 'Portfolio and profile of Fathan Imaad. Academic background in Psychology, coursework in job analysis, and volunteer coordination experience.',
   applicationName: 'Fathan Imaad Portfolio',
   authors: [{ name: 'Fathan Imaad' }],
   keywords: ['Fathan Imaad', 'Psychology', 'People Operations', 'Human Resources', 'Collaboration Management', 'Community Operations', 'Academic Research'],
