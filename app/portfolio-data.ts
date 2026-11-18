@@ -1,10 +1,10 @@
 export const portfolioData = {
   profile: {
     name: 'Fathan Imaad',
-    eyebrow: 'Psychology student pursuing early-career HR',
+    eyebrow: 'Psychology graduate pursuing early-career HR',
     email: 'fathanimaad@gmail.com',
     linkedin: 'https://www.linkedin.com/in/fathan-imaad/',
-    resumePath: '/fathan-imaad-cv.pdf',
+    resumePath: '/fathan-imaad-resume.pdf',
   },
   navigation: [
     { label: 'Overview', href: '#overview' },
@@ -16,9 +16,9 @@ export const portfolioData = {
   ],
   hero: {
     summary:
-      'Final-year Psychology student building toward entry-level HR and People Operations roles, with experience in research, community operations, coordination, data handling, and structured communication.',
+      'Psychology graduate building toward early-career roles in Learning & Development and People Operations, with experience in research, community operations, coordination, data handling, and structured communication.',
     direction:
-      'I am especially interested in recruitment, people operations, HR administration, and research where careful coordination supports better work with people.',
+      'I am especially interested in learning & development, people operations, HR administration, and research where careful coordination supports better work with people.',
     highlights: [
       {
         value: '100+',
@@ -39,7 +39,7 @@ export const portfolioData = {
   },
   areasOfInterest: [
     'Human Resources',
-    'Recruitment & Talent Acquisition',
+    'Learning & Development',
     'People Operations',
     'HR Administration',
     'Research',
@@ -219,8 +219,8 @@ export const portfolioData = {
     degree: 'Bachelor of Psychology',
     period: '2022–Present',
     expectedGraduation: '2026',
-    gpa: '3.68 / 4.00',
-    status: 'Completed all regular coursework and currently focusing on undergraduate thesis.',
+    gpa: '3.69 / 4.00',
+    status: 'Graduated in Psychology; ready for full-time roles.',
     exposure: [
       'Job Analysis',
       'Interviewing',
